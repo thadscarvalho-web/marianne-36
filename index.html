@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Marianne 💚</title>
+
+<style>
+
+body{
+background:#0b0f0c;
+color:white;
+font-family:Arial;
+display:flex;
+align-items:center;
+justify-content:center;
+height:100vh;
+text-align:center;
+overflow:hidden;
+}
+
+.container{
+max-width:700px;
+}
+
+h1{
+font-size:40px;
+color:#6bff9a;
+}
+
+#countdown{
+font-size:30px;
+margin-top:20px;
+}
+
+.hidden{
+display:none;
+}
+
+button{
+background:#1db954;
+border:none;
+padding:15px 30px;
+font-size:18px;
+border-radius:10px;
+cursor:pointer;
+margin-top:20px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div id="lock">
+<h1>💚 Algo está sendo preparado...</h1>
+<p>Volte quando o relógio marcar:</p>
+
+<h2>04 de Abril — 00:00</h2>
+
+<div id="countdown"></div>
+</div>
+
+<div id="content" class="hidden">
+
+<h1>Feliz aniversário, Marianne 💚</h1>
+
+<p>
+Algumas histórias não precisam de rótulos.
+Só precisam existir.
+</p>
+
+<p>
+E conhecer você foi uma das coisas mais bonitas que já me aconteceram.
+</p>
+
+<button onclick="tocar()">🎶 Tocar música</button>
+
+</div>
+
+</div>
+
+<script>
+
+const releaseDate = new Date("2026-04-04T00:00:00-03:00");
+
+function atualizar(){
+
+const now = new Date();
+const diff = releaseDate - now;
+
+if(diff <= 0){
+
+document.getElementById("lock").style.display="none";
+document.getElementById("content").classList.remove("hidden");
+return;
+
+}
+
+const d = Math.floor(diff/(1000*60*60*24));
+const h = Math.floor((diff/(1000*60*60))%24);
+const m = Math.floor((diff/(1000*60))%60);
+const s = Math.floor((diff/1000)%60);
+
+document.getElementById("countdown").innerHTML =
+d+"d "+h+"h "+m+"m "+s+"s";
+
+}
+
+setInterval(atualizar,1000);
+
+function tocar(){
+
+window.open("https://open.spotify.com/","_blank");
+
+}
+
+</script>
+
+</body>
+</html>
