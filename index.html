@@ -1,186 +1,213 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<title>Marianne 💙</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marianne 💙</title>
 
-<style>
-body{
-background: linear-gradient(180deg, #050a1f, #0a1f4d, #050a1f);
-color:white;
-font-family:Arial;
-margin:0;
-text-align:center;
-overflow-x:hidden;
-}
+    <style>
+        /* Estilo Global e Fundo Estelar */
+        body {
+            background: radial-gradient(circle at center, #0a1f4d 0%, #050a1f 100%);
+            color: white;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
 
-.container{
-max-width:700px;
-margin:auto;
-padding:40px 20px;
-}
+        /* Card de conteúdo com efeito blur (vidro) */
+        .container {
+            max-width: 600px;
+            width: 90%;
+            margin: 20px;
+            padding: 40px 30px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 30px;
+            border: 1px solid rgba(77, 166, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+            text-align: center;
+            z-index: 1;
+        }
 
-h1,h2{
-color:#4da6ff;
-text-shadow:0 0 10px #4da6ff;
-}
+        h1, h2 {
+            color: #4da6ff;
+            text-shadow: 0 0 15px rgba(77, 166, 255, 0.5);
+        }
 
-.hidden{
-display:none;
-}
+        .hidden { display: none; }
 
-button{
-background: linear-gradient(180deg, #050a1f, #0a1f4d, #050a1f);
-border:none;
-padding:12px 25px;
-border-radius:20px;
-cursor:pointer;
-margin-top:20px;
-}
+        /* Botão Moderno */
+        button {
+            background: #4da6ff;
+            color: #050a1f;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 20px 0;
+            box-shadow: 0 4px 15px rgba(77, 166, 255, 0.3);
+        }
 
-#frase{
-font-size:22px;
-margin-top:40px;
-transition:0.5s;
-}
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px #4da6ff;
+        }
 
-.confetti{
-position:fixed;
-width:8px;
-height:8px;
-top:-10px;
-animation:fall linear infinite;
-}
+        /* Área das Frases */
+        #frase {
+            font-size: 20px;
+            min-height: 80px;
+            margin: 30px 0;
+            transition: opacity 0.5s ease;
+            font-style: italic;
+            color: #a3d2ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-@keyframes fall{
-to{
-transform:translateY(100vh) rotate(360deg);
-}
-}
-</style>
+        /* Animação de Confetes */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            top: -10px;
+            z-index: 0;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(105vh) rotate(360deg); }
+        }
+
+        #countdown {
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 
 <body>
 
-<div class="container">
+    <div class="container">
+        <!-- TELA DE BLOQUEIO -->
+        <div id="lock">
+            <h1>💙 Algo está sendo preparado...</h1>
+            <p>Aguarde o momento especial:</p>
+            <div id="countdown"></div>
+        </div>
 
-<div id="lock">
-<h1>💙 Algo está sendo preparado...</h1>
-<p>Volte em:</p>
-<div id="countdown"></div>
-</div>
+        <!-- CONTEÚDO REVELADO -->
+        <div id="content" class="hidden">
+            <h1>Marianne 💙</h1>
+            
+            <button onclick="tocar()">🎶 Ouvir nossa música</button>
 
-<div id="content" class="hidden">
+            <h2>📝 Coisas que amo em você</h2>
+            <div id="frase">Carregando motivos...</div>
 
-<h1>Marianne 💙</h1>
+            <h2>💌</h2>
+            <p>
+                Algumas histórias não precisam de rótulo.<br><br>
+                Obrigada por cada riso, cada susto, cada momento.<br><br>
+                <strong>Feliz 37 anos, meu bem. 💙</strong>
+            </p>
+        </div>
+    </div>
 
-<button onclick="tocar()">🎶 Tocar música</button>
+    <script>
+        // --- CONFIGURAÇÃO DA DATA ---
+        const releaseDate = new Date("2026-03-04T00:00:00-03:00");
 
-<h2>📝 coisas incríveis e únicas suas</h2>
+        function update() {
+            const now = new Date();
+            const diff = releaseDate - now;
 
-<div id="frase"></div>
+            if (diff <= 0) {
+                document.getElementById("lock").style.display = "none";
+                document.getElementById("content").classList.remove("hidden");
+                iniciarFrases(); // Começa o ciclo de frases
+                confetti();      // Solta os confetes
+                clearInterval(timerInterval);
+                return;
+            }
 
-<h2>💌</h2>
+            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const m = Math.floor((diff / (1000 * 60)) % 60);
+            const s = Math.floor((diff / 1000) % 60);
 
-<p>
-Algumas histórias não precisam de rótulo.<br><br>
-Obrigada por cada riso, cada susto, cada momento.<br><br>
-Feliz 37 anos, meu bem. 💙
-</p>
+            document.getElementById("countdown").innerHTML = `${d}d ${h}h ${m}m ${s}s`;
+        }
 
-</div>
+        const timerInterval = setInterval(update, 1000);
+        update();
 
-</div>
+        // --- LÓGICA DAS FRASES ---
+        const frases = [
+            "O seu brilho nos olhos quando fala do que ama 💙",
+            "A memória de Dory 🐠",
+            "O susto fácil e os seus gritinhos",
+            "Sua criatividade com nomes aleatórios para animais",
+            "O seu senso de humor único",
+            "A leveza que você traz pros meus dias",
+            "O pé pra fora da cama kkk",
+            "O sono imediato quando tocam nas suas mãos",
+            "O livro lindo que você escreve 📖",
+            "A sua risada contagiante",
+            "Sua espontaneidade",
+            "Simplesmente tudo o que você é",
+            "Feliz aniversário, meu bem! 💙"
+        ];
 
-<script>
+        let index = 0;
+        const fraseEl = document.getElementById("frase");
 
-// DATA CORRETA
-const releaseDate = new Date("2026-03-04T00:00:00-03:00");
+        function mostrarProximaFrase() {
+            fraseEl.style.opacity = 0;
+            
+            setTimeout(() => {
+                fraseEl.innerHTML = frases[index];
+                fraseEl.style.opacity = 1;
+                index = (index + 1) % frases.length; // Ciclo infinito
+            }, 500);
+        }
 
-function update(){
-const now = new Date();
-const diff = releaseDate - now;
+        function iniciarFrases() {
+            mostrarProximaFrase();
+            setInterval(mostrarProximaFrase, 5000); // Muda a cada 5 segundos
+        }
 
-if(diff <= 0){
-document.getElementById("lock").style.display="none";
-document.getElementById("content").classList.remove("hidden");
-confetti();
-return;
-}
+        // --- MÚSICA ---
+        function tocar() {
+            window.open("https://open.spotify.com", "_blank");
+        }
 
-const d = Math.floor(diff/(1000*60*60*24));
-const h = Math.floor((diff/(1000*60*60))%24);
-const m = Math.floor((diff/(1000*60))%60);
-const s = Math.floor((diff/1000)%60);
-
-document.getElementById("countdown").innerHTML =
-d+"d "+h+"h "+m+"m "+s+"s";
-}
-
-setInterval(update,1000);
-
-// FRASES INTERATIVAS
-const frases = [
-"Meu bem 💙",
-"A memória de Dory 🐠",
-"O seu susto fácil (os gritinhos)",
-"A sua criatividade com nomes aleatórios",
-"O seu senso de humor",
-"A sua leveza",
-"O brilho nos seus olhos quando fala do que ama",
-"O pé pra fora da cama 🫣",
-"O sono quando tocam nas suas mãos",
-"O livro que você escreve 📖",
-"A forma que você pensa",
-"A sua risada",
-"A sua espontaneidade",
-"E tudo que você é",
-"Feliz 37 anos 💙"
-];
-
-let index = 0;
-
-function mostrarFrase(){
-const el = document.getElementById("frase");
-
-el.style.opacity = 0;
-
-setTimeout(()=>{
-el.innerHTML = frases[index];
-el.style.opacity = 1;
-index++;
-},300);
-
-if(index >= frases.length){
-index = frases.length -1;
-}
-}
-
-document.body.addEventListener("click", mostrarFrase);
-
-// inicia primeira frase
-mostrarFrase();
-
-// BOTÃO MÚSICA
-function tocar(){
-window.open("https://open.spotify.com/track/0PgsB53yhlKs8D19LgYU4i", "_blank");
-}
-
-// CONFETE AZUL
-function confetti(){
-setInterval(()=>{
-const el = document.createElement("div");
-el.className="confetti";
-el.style.left=Math.random()*100+"vw";
-el.style.background=["#4da6ff","#3399ff","#1a75ff","#66b3ff"][Math.floor(Math.random()*4)];
-el.style.borderRadius="50%";
-el.style.animationDuration=(Math.random()*3+2)+"s";
-document.body.appendChild(el);
-setTimeout(()=>el.remove(),5000);
-},200);
-}
-
-</script>
-
+        // --- EFEITO DE CONFETES ---
+        function confetti() {
+            setInterval(() => {
+                const el = document.createElement("div");
+                el.className = "confetti";
+                el.style.left = Math.random() * 100 + "vw";
+                el.style.background = ["#4da6ff", "#3399ff", "#ffffff", "#b3d9ff"][Math.floor(Math.random() * 4)];
+                el.style.borderRadius = "50%";
+                el.style.animationDuration = (Math.random() * 3 + 2) + "s";
+                document.body.appendChild(el);
+                setTimeout(() => el.remove(), 5000);
+            }, 300);
+        }
+    </script>
 </body>
 </html>
+
