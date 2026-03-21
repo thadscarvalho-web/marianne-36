@@ -10,39 +10,66 @@ background:#0b0f0c;
 color:white;
 font-family:Arial;
 margin:0;
-padding:0;
 text-align:center;
+overflow-x:hidden;
 }
 
 .container{
-max-width:600px;
+max-width:700px;
 margin:auto;
 padding:40px 20px;
 }
 
-h1{
+h1,h2{
 color:#00ff88;
-font-size:40px;
+text-shadow:0 0 10px #00ff88;
 }
 
-#countdown{
-font-size:30px;
-margin-top:20px;
-}
-
-h2{
-margin-top:40px;
-color:#00ff88;
+.hidden{
+display:none;
 }
 
 ul{
 text-align:left;
-line-height:1.6;
-margin-top:20px;
 }
 
 li{
-margin-bottom:8px;
+margin:10px 0;
+cursor:pointer;
+transition:0.3s;
+}
+
+li:hover{
+color:#00ff88;
+}
+
+.mensagem{
+display:none;
+font-size:14px;
+opacity:0.7;
+}
+
+button{
+background:#00ff88;
+border:none;
+padding:12px 25px;
+border-radius:20px;
+cursor:pointer;
+margin-top:20px;
+}
+
+.confetti{
+position:fixed;
+width:8px;
+height:8px;
+top:-10px;
+animation:fall linear infinite;
+}
+
+@keyframes fall{
+to{
+transform:translateY(100vh) rotate(360deg);
+}
 }
 </style>
 </head>
@@ -51,29 +78,93 @@ margin-bottom:8px;
 
 <div class="container">
 
-<h1>Marianne 💚</h1>
-<p>Faltam...</p>
-
+<div id="lock">
+<h1>💚 Algo está sendo preparado...</h1>
+<p>Volte em:</p>
 <div id="countdown"></div>
+</div>
+
+<div id="content" class="hidden">
+
+<h1>Marianne, 37 💚</h1>
+
+<button onclick="tocar()">🎶 Tocar música</button>
 
 <h2>📝 coisas incríveis e únicas suas</h2>
 
 <ul>
 
-<li>1. A memória de Dory 🐠</li>
-<li>2. O susto fácil (os gritinhos) 😂</li>
-<li>3. A criatividade (nomes dos animais)</li>
-<li>4. O senso de humor</li>
-<li>5. A leveza</li>
-<li>6. O brilho nos olhos quando fala de quem ama ou do que gosta ✨</li>
-<li>7. A mania de dormir com o pé pra fora da cama e deixar a bruxa pegar 🫣</li>
-<li>8. O sono que sente quando tocam nas suas mãos</li>
-<li>9. O livro que você escreve 📖</li>
-<li>10. A forma de pensar</li>
-<li>11. A risada</li>
-<li>12. A espontaneidade</li>
+<li onclick="toggle(this)">
+1. A memória de Dory 🐠
+<div class="mensagem">e mesmo assim sempre parece o começo 💚</div>
+</li>
+
+<li onclick="toggle(this)">
+2. O susto fácil 😂
+<div class="mensagem">principalmente aquele dia… impossível esquecer</div>
+</li>
+
+<li onclick="toggle(this)">
+3. A criatividade
+<div class="mensagem">até nos nomes mais aleatórios para os animais</div>
+</li>
+
+<li onclick="toggle(this)">
+4. O senso de humor
+<div class="mensagem">que transforma qualquer momento</div>
+</li>
+
+<li onclick="toggle(this)">
+5. A leveza
+<div class="mensagem">que você carrega sem perceber</div>
+</li>
+
+<li onclick="toggle(this)">
+6. O brilho nos olhos ✨
+<div class="mensagem">quando fala do que ama</div>
+</li>
+
+<li onclick="toggle(this)">
+7. O pé pra fora da cama 🫣
+<div class="mensagem">e a coragem de deixar a bruxa pegar</div>
+</li>
+
+<li onclick="toggle(this)">
+8. O sono que sente quando tocam nas suas mãos
+<div class="mensagem">um efeito inexplicável</div>
+</li>
+
+<li onclick="toggle(this)">
+9. O livro que você escreve 📖
+<div class="mensagem">e tudo que ainda vai criar</div>
+</li>
+
+<li onclick="toggle(this)">
+10. A forma de pensar
+<div class="mensagem">profunda, inteira, te deixa muito atraente</div>
+</li>
+
+<li onclick="toggle(this)">
+11. A risada
+<div class="mensagem">que fica na memória fácil</div>
+</li>
+
+<li onclick="toggle(this)">
+12. A espontaneidade
+<div class="mensagem">que faz tudo parecer leve</div>
+</li>
 
 </ul>
+
+<h2>💌</h2>
+
+<p>
+Algumas histórias não precisam de rótulo.<br><br>
+Obrigada por cada riso, cada susto, cada momento.<br><br>
+Feliz 37 anos, Meu bem. 💚
+</p>
+
+</div>
 
 </div>
 
@@ -85,6 +176,13 @@ function update(){
 const now = new Date();
 const diff = releaseDate - now;
 
+if(diff <= 0){
+document.getElementById("lock").style.display="none";
+document.getElementById("content").classList.remove("hidden");
+confetti();
+return;
+}
+
 const d = Math.floor(diff/(1000*60*60*24));
 const h = Math.floor((diff/(1000*60*60))%24);
 const m = Math.floor((diff/(1000*60))%60);
@@ -95,6 +193,27 @@ d+"d "+h+"h "+m+"m "+s+"s";
 }
 
 setInterval(update,1000);
+
+function toggle(el){
+const msg = el.querySelector(".mensagem");
+msg.style.display = msg.style.display === "block" ? "none" : "block";
+}
+
+function tocar(){
+window.open("https://open.spotify.com/", "_blank");
+}
+
+function confetti(){
+setInterval(()=>{
+const el = document.createElement("div");
+el.className="confetti";
+el.style.left=Math.random()*100+"vw";
+el.style.background=["#00ff88","#00cc66","#33ff99"][Math.floor(Math.random()*3)];
+el.style.animationDuration=(Math.random()*3+2)+"s";
+document.body.appendChild(el);
+setTimeout(()=>el.remove(),5000);
+},200);
+}
 
 </script>
 
