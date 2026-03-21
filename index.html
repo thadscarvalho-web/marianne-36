@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html>
 <head>
 <meta charset="UTF-8">
 <title>Marianne 💚</title>
 
 <style>
-
 body{
 background:#0b0f0c;
 color:white;
@@ -15,69 +14,47 @@ align-items:center;
 justify-content:center;
 height:100vh;
 text-align:center;
-overflow:hidden;
-}
-
-.container{
-max-width:700px;
 }
 
 h1{
-font-size:40px;
-color:#6bff9a;
+color:#00ff88;
 }
 
 #countdown{
 font-size:30px;
 margin-top:20px;
 }
-
-.hidden{
-display:none;
-}
-
-button{
-background:#1db954;
-border:none;
-padding:15px 30px;
-font-size:18px;
-border-radius:10px;
-cursor:pointer;
-margin-top:20px;
-}
-
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<div>
 
-<div id="lock">
-<h1>💚 Algo está sendo preparado...</h1>
-<p>Volte quando o relógio marcar:</p>
-
-<h2>04 de Abril — 00:00</h2>
+<h1>Marianne 💚</h1>
+<p>Faltam...</p>
 
 <div id="countdown"></div>
-</div>
+  <h2 style="margin-top:40px; color:#00ff88;">
+📝 coisas incríveis e únicas suas
+</h2>
 
-<div id="content" class="hidden">
+<ul style="text-align:left; max-width:500px; margin:auto; margin-top:20px; line-height:1.6;">
 
-<h1>Feliz aniversário, Marianne 💚</h1>
+<li>1. A memória de Dory 🐠</li>
+<li>2. O susto fácil (os gritinhos) 😂</li>
+<li>3. A criatividade (nomes dos animais)</li>
+<li>4. O seu senso de humor</li>
+<li>5. A leveza</li>
+<li>6. O brilho nos olhos quando fala de quem ama ou do que gosta ✨</li>
+<li>7. A mania de dormir com o pé pra fora da cama e deixar a bruxa pegar 🫣</li>
+<li>8. O sono que sente quando tocam nas suas mãos</li>
+<li>9. O livro que você escreve 📖</li>
+<li>10. A forma de pensar</li>
+<li>11. A sua risada</li>
+<li>12. A espontaneidade</li>
 
-<p>
-Algumas histórias não precisam de rótulos.
-Só precisam existir.
-</p>
-
-<p>
-E conhecer você foi uma das coisas mais bonitas que já me aconteceram.
-</p>
-
-<button onclick="tocar()">🎶 Tocar música</button>
-
-</div>
+</ul>
 
 </div>
 
@@ -85,18 +62,9 @@ E conhecer você foi uma das coisas mais bonitas que já me aconteceram.
 
 const releaseDate = new Date("2026-04-04T00:00:00-03:00");
 
-function atualizar(){
-
+function update(){
 const now = new Date();
 const diff = releaseDate - now;
-
-if(diff <= 0){
-
-document.getElementById("lock").style.display="none";
-document.getElementById("content").classList.remove("hidden");
-return;
-
-}
 
 const d = Math.floor(diff/(1000*60*60*24));
 const h = Math.floor((diff/(1000*60*60))%24);
@@ -105,16 +73,9 @@ const s = Math.floor((diff/1000)%60);
 
 document.getElementById("countdown").innerHTML =
 d+"d "+h+"h "+m+"m "+s+"s";
-
 }
 
-setInterval(atualizar,1000);
-
-function tocar(){
-
-window.open("https://open.spotify.com/","_blank");
-
-}
+setInterval(update,1000);
 
 </script>
 
