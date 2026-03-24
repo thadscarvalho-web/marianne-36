@@ -6,7 +6,6 @@
     <title>Marianne 💙</title>
 
     <style>
-        /* Estilo Global e Fundo Estelar */
         body {
             background: radial-gradient(circle at center, #0a1f4d 0%, #050a1f 100%);
             color: white;
@@ -16,14 +15,12 @@
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            overflow: hidden; /* Impede scroll infinito por causa dos confetes */
+            overflow: hidden;
         }
 
-        /* Card de conteúdo com efeito blur (vidro) */
         .container {
             max-width: 600px;
             width: 90%;
-            margin: 20px;
             padding: 40px 30px;
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(12px);
@@ -43,7 +40,6 @@
 
         .hidden { display: none; }
 
-        /* Botão Moderno */
         button {
             background: #4da6ff;
             color: #050a1f;
@@ -63,12 +59,11 @@
             box-shadow: 0 0 20px #4da6ff;
         }
 
-        /* Área das Frases */
         #frase {
             font-size: 20px;
             min-height: 80px;
             margin: 30px 0;
-            transition: opacity 0.8s ease; /* Transição suave de fade */
+            transition: opacity 0.8s ease;
             font-style: italic;
             color: #a3d2ff;
             display: flex;
@@ -76,7 +71,6 @@
             justify-content: center;
         }
 
-        /* Animação de Confetes */
         .confetti {
             position: fixed;
             width: 8px;
@@ -101,28 +95,23 @@
         }
     </style>
 </head>
-
 <body>
 
     <div class="container">
-        <!-- TELA DE BLOQUEIO -->
         <div id="lock">
             <h1>💙 Algo está sendo preparado...</h1>
             <p>Aguarde o momento especial:</p>
             <div id="countdown">Carregando...</div>
         </div>
 
-        <!-- CONTEÚDO REVELADO -->
         <div id="content" class="hidden">
             <h1>Marianne 💙</h1>
-            
-            <!-- Substitua o link abaixo pelo link direto da música ou playlist -->
             <button onclick="window.open('https://open.spotify.com/episode/2r2rNqR3Km8yDtv3cNgXCY', '_blank')">
                 🎶 Ouvir nossa música
             </button>
 
             <h2>📝 Coisas que admiro em você</h2>
-            <div id="frase">Carregando motivos...</div>
+            <div id="frase"></div>
 
             <h2>💌</h2>
             <p>
@@ -134,8 +123,8 @@
     </div>
 
     <script>
-        // --- CONFIGURAÇÃO DA DATA (Ano-Mês-Dia) ---
-        const releaseDate = new Date("2020-01-01T00:00:00-03:00");
+        // Ajuste aqui a data do aniversário dela (Ano-Mês-Dia)
+        const releaseDate = new Date("2025-02-02T00:00:00-03:00");
 
         function update() {
             const now = new Date();
@@ -154,14 +143,12 @@
             const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
             const m = Math.floor((diff / (1000 * 60)) % 60);
             const s = Math.floor((diff / 1000) % 60);
-
             document.getElementById("countdown").innerHTML = `${d}d ${h}h ${m}m ${s}s`;
         }
 
         const timerInterval = setInterval(update, 1000);
         update();
 
-        // --- LÓGICA DAS FRASES ---
         const frases = [
             "Sua coragem em ser exatamente quem você é.",
             "O jeito que você consegue me fazer rir nos momentos mais aleatórios.",
@@ -175,34 +162,28 @@
 
         function mostrarProximaFrase() {
             fraseEl.style.opacity = 0;
-            
             setTimeout(() => {
+                index = (index + 1) % frases.length;
                 fraseEl.innerHTML = frases[index];
                 fraseEl.style.opacity = 1;
-                index = (index + 1) % frases.length;
             }, 800);
         }
 
         function iniciarFrases() {
-            // Mostra a primeira frase imediatamente
             fraseEl.innerHTML = frases[0];
-            index = 1;
-            // Inicia o ciclo
+            fraseEl.style.opacity = 1;
             setInterval(mostrarProximaFrase, 4500); 
         }
 
-        // --- EFEITO DE CONFETES ---
         function iniciarConfetes() {
             setInterval(() => {
                 const el = document.createElement("div");
                 el.className = "confetti";
                 el.style.left = Math.random() * 100 + "vw";
                 el.style.background = ["#4da6ff", "#3399ff", "#ffffff", "#b3d9ff"][Math.floor(Math.random() * 4)];
-                el.style.borderRadius = Math.random() > 0.5 ? "50%" : "2px";
+                el.style.borderRadius = "50%";
                 el.style.animationDuration = (Math.random() * 3 + 2) + "s";
-                el.style.opacity = Math.random();
                 document.body.appendChild(el);
-                
                 setTimeout(() => el.remove(), 5000);
             }, 200);
         }
