@@ -86,8 +86,13 @@
         }
 
         @keyframes fall {
-            to { transform: translateY(105vh) rotate(360deg); }
-        }
+from {
+transform: translateY(0);
+}
+to {
+transform: translateY(100vh) rotate(360deg);
+}
+}
 
         #countdown {
             font-size: 24px;
@@ -166,7 +171,7 @@
         function mostrarProximaFrase() {
             fraseEl.style.opacity = 0;
             
-            setTimeout(() => {
+            setInterval(mostrarProximaFrase, 5000);
                 fraseEl.innerHTML = frases[index];
                 fraseEl.style.opacity = 1;
                 index = (index + 1) % frases.length; // Ciclo infinito
@@ -180,7 +185,7 @@
 
         // --- MÚSICA ---
         function tocar() {
-            window.open("https://open.spotify.com", "_blank");
+            window.open("https://open.spotify.com/search/seu%20nome", "_blank");
         }
 
         // --- EFEITO DE CONFETES ---
