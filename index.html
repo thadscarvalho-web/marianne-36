@@ -7,7 +7,7 @@
 
 <style>
 
-/* INTRO */
+/* INTRO PRETA */
 #intro{
 position:fixed;
 width:100%;
@@ -17,27 +17,7 @@ display:flex;
 align-items:center;
 justify-content:center;
 z-index:999;
-}
-
-/* esconder conteúdo no início */
-#conteudo{
-opacity:0;
-transition:1.5s;
-}
-}
-
-#introText{
-color:white;
-font-size:28px;
-opacity:0;
-animation:fadeIntro 4s ease forwards;
-}
-
-@keyframes fadeIntro{
-0%{opacity:0; transform:scale(0.9);}
-30%{opacity:1;}
-70%{opacity:1;}
-100%{opacity:0; transform:scale(1.1);}
+transition:1s;
 }
 
 /* FUNDO CINEMA */
@@ -47,9 +27,9 @@ font-family:Arial;
 background: radial-gradient(circle at center, #0a1f4d 0%, #050a1f 70%, #000 100%);
 color:white;
 overflow-x:hidden;
-transition:1.5s;
 }
 
+/* brilho */
 body::after{
 content:"";
 position:fixed;
@@ -59,7 +39,7 @@ background:radial-gradient(circle, rgba(77,166,255,0.15), transparent 70%);
 pointer-events:none;
 }
 
-/* ESTRELAS */
+/* estrelas */
 .stars{
 position:fixed;
 width:100%;
@@ -69,19 +49,16 @@ opacity:0;
 transition:2s;
 }
 
-/* CENTRAL */
+/* central */
 .container{
-position:relative;
-z-index:2;
 min-height:100vh;
 display:flex;
-flex-direction:column;
 align-items:center;
 justify-content:center;
 text-align:center;
 }
 
-/* LÂMPADA */
+/* lâmpada */
 .lamp-container{
 cursor:pointer;
 display:flex;
@@ -102,7 +79,6 @@ background:radial-gradient(circle, #222 0%, transparent 70%);
 border-radius:60px 60px 20px 20px;
 position:absolute;
 top:0;
-left:0;
 transition:1s;
 }
 
@@ -127,7 +103,17 @@ left:50%;
 transform:translateX(-50%);
 }
 
-/* CARD */
+/* conteúdo */
+.hidden{
+display:none;
+}
+
+#conteudo{
+opacity:0;
+transition:1.5s;
+}
+
+/* card */
 .card{
 background:rgba(255,255,255,0.02);
 padding:30px 80px;
@@ -136,10 +122,8 @@ backdrop-filter:blur(25px);
 box-shadow:0 0 60px rgba(77,166,255,0.15);
 }
 
-/* FRASES */
+/* frases */
 #frase{
-max-width:700px;
-margin:auto;
 margin-top:30px;
 font-size:22px;
 opacity:0;
@@ -147,18 +131,18 @@ transition:1s;
 min-height:40px;
 }
 
-/* BOTÃO */
+/* botão */
 button{
 margin-top:20px;
 padding:12px 25px;
 border:none;
 border-radius:20px;
 background:#4da6ff;
-cursor:pointer;
 color:white;
+cursor:pointer;
 }
 
-/* CONFETE */
+/* confete */
 .confetti{
 position:fixed;
 width:4px;
@@ -171,7 +155,7 @@ animation:fall linear infinite;
 to{transform:translateY(100vh);}
 }
 
-/* PARTÍCULAS */
+/* partículas */
 .particle{
 position:fixed;
 width:3px;
@@ -183,8 +167,7 @@ animation:float linear infinite;
 }
 
 @keyframes float{
-0%{transform:translateY(0);}
-100%{transform:translateY(-100vh);}
+to{transform:translateY(-100vh);}
 }
 
 </style>
@@ -192,34 +175,48 @@ animation:float linear infinite;
 
 <body>
 
-<div class="stars" id="stars"></div>
-
-<div class="container">
-
-<div id="inicio">
+<!-- INTRO -->
+<div id="intro">
 <div class="lamp-container" onclick="start()">
 <div class="lamp">
 <div class="light" id="light"></div>
 <div class="base"></div>
 <div class="cord"></div>
 </div>
-<p>toque para acender ✨</p>
+<p style="opacity:0.6;">toque para acender ✨</p>
 </div>
 </div>
 
+<!-- ESTRELAS -->
+<div class="stars" id="stars"></div>
+
+<!-- CONTEÚDO -->
+<div class="container">
+
 <div id="conteudo" class="hidden">
+
 <div class="card">
-<h1>Feliz Aniversário 💙</h1>
+
+<h1>Marianne 💙</h1>
+
 <button onclick="musica()">🎶 ouça</button>
+
 <div id="frase"></div>
+
+<p style="margin-top:40px;">
+Aproveita muito seu dia, que seja incrível, cheio de amor, risada e carinho<br><br>
+Feliz Aniversário! 💙
+</p>
+
 </div>
+
 </div>
 
 </div>
 
 <script>
 
-/* FRASES */
+/* SUAS FRASES (INALTERADAS) */
 const frases = [
 "pra você nao esquecer",
 "sua voz é como a guitarra solo de 'November Rain' de Guns N' Roses tocada às 7:10",
@@ -229,37 +226,33 @@ const frases = [
 "você vai conhecer a billie e muito provavelmente ela vai se apaixonar pelos seus olhos",
 "se você fosse um cachorro, seria o golden",
 "eu teria um golden",
-"você é incrivelmente forte, e isso é inspirador"
+"você é incrivelmente forte, e isso é inspirador",
 ];
 
 let i = 0;
 let pausado = false;
-let intervalo;
 
 /* START */
 function start(){
 
 const light = document.getElementById("light");
 
-/* acende lâmpada */
 light.style.background = "radial-gradient(circle, #fff 0%, #ffe680 40%, transparent 80%)";
 light.style.boxShadow = "0 0 200px #ffe680";
 
-/* delay dramático */
 setTimeout(()=>{
 
-/* remove tela preta */
 document.getElementById("intro").style.opacity = 0;
 
 setTimeout(()=>{
 document.getElementById("intro").style.display = "none";
 
-/* entra o universo */
-document.getElementById("stars").style.opacity = 1;
-document.getElementById("conteudo").classList.remove("hidden");
-document.getElementById("conteudo").style.opacity = 1;
+const conteudo = document.getElementById("conteudo");
+conteudo.classList.remove("hidden");
+conteudo.style.opacity = 1;
 
-/* inicia efeitos */
+document.getElementById("stars").style.opacity = 1;
+
 iniciarFrases();
 confete();
 poeira();
@@ -269,13 +262,14 @@ poeira();
 },800);
 }
 
-/* FRASES LOOP */
+/* FRASES */
 function iniciarFrases(){
 mostrarFrase();
 
-intervalo = setInterval(()=>{
+setInterval(()=>{
 if(!pausado){
-proximaFrase();
+i = (i + 1) % frases.length;
+mostrarFrase();
 }
 },3000);
 }
@@ -291,12 +285,7 @@ el.style.opacity = 1;
 },300);
 }
 
-function proximaFrase(){
-i = (i + 1) % frases.length;
-mostrarFrase();
-}
-
-/* 👉 CLIQUE = PAUSA / DESPAUSA */
+/* CLIQUE = PAUSA */
 document.body.addEventListener("click", ()=>{
 pausado = !pausado;
 });
@@ -328,7 +317,7 @@ setTimeout(()=>p.remove(),10000);
 
 /* MÚSICA */
 function musica(){
-window.open("https://open.spotify.com", "_blank");
+window.open("https://open.spotify.com/episode/2r2rNqR3Km8yDtv3cNgXCY", "_blank");
 }
 
 </script>
