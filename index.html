@@ -222,12 +222,14 @@ animation:float linear infinite;
 /* FRASES */
 const frases = [
 "pra você nao esquecer",
-"sua voz é como a guitarra solo de November Rain",
-"sua falta de memória me lembra como se fosse a primeira vez",
+"sua voz é como a guitarra solo de 'November Rain' de Guns N' Roses tocada às 7:10",
+"sua falta de memoria me lembra o filme 'como se fosse a primeira vez'",
+"suco de manga é muito bom",
 "seu humor é invejável",
-"você vai conhecer a billie",
-"seus olhos são absurdos",
-"você é incrivelmente forte",
+"você vai conhecer a billie e muito provavelmente ela vai se apaixonar pelos seus olhos",
+"se você fosse um cachorro, seria o golden",
+"eu teria um golden",
+"você é incrivelmente forte, e isso é inspirador"
 ];
 
 let i = 0;
@@ -238,19 +240,33 @@ let intervalo;
 function start(){
 
 const light = document.getElementById("light");
+
+/* acende lâmpada */
 light.style.background = "radial-gradient(circle, #fff 0%, #ffe680 40%, transparent 80%)";
-light.style.boxShadow = "0 0 120px #ffe680";
+light.style.boxShadow = "0 0 200px #ffe680";
+
+/* delay dramático */
+setTimeout(()=>{
+
+/* remove tela preta */
+document.getElementById("intro").style.opacity = 0;
 
 setTimeout(()=>{
-document.getElementById("inicio").style.display="none";
-document.getElementById("conteudo").classList.remove("hidden");
-document.getElementById("stars").style.opacity=1;
+document.getElementById("intro").style.display = "none";
 
+/* entra o universo */
+document.getElementById("stars").style.opacity = 1;
+document.getElementById("conteudo").classList.remove("hidden");
+document.getElementById("conteudo").style.opacity = 1;
+
+/* inicia efeitos */
 iniciarFrases();
 confete();
 poeira();
 
-},1200);
+},800);
+
+},800);
 }
 
 /* FRASES LOOP */
