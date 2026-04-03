@@ -20,7 +20,7 @@ z-index:999;
 transition:1s;
 }
 
-/* FUNDO CINEMA */
+/* FUNDO */
 body{
 margin:0;
 font-family:Arial;
@@ -129,6 +129,7 @@ font-size:22px;
 opacity:0;
 transition:1s;
 min-height:40px;
+cursor:pointer; /* 👈 agora indica que pode clicar */
 }
 
 /* botão */
@@ -187,10 +188,8 @@ to{transform:translateY(-100vh);}
 </div>
 </div>
 
-<!-- ESTRELAS -->
 <div class="stars" id="stars"></div>
 
-<!-- CONTEÚDO -->
 <div class="container">
 
 <div id="conteudo" class="hidden">
@@ -216,7 +215,7 @@ Feliz Aniversário! 💙
 
 <script>
 
-/* SUAS FRASES (INALTERADAS) */
+/* SUAS FRASES */
 const frases = [
 "pra você nao esquecer",
 "sua voz é como a guitarra solo de 'November Rain' de Guns N' Roses tocada às 7:10",
@@ -231,6 +230,7 @@ const frases = [
 
 let i = 0;
 let pausado = false;
+let intervalo;
 
 /* START */
 function start(){
@@ -262,11 +262,12 @@ poeira();
 },800);
 }
 
-/* FRASES */
+/* LOOP DAS FRASES */
 function iniciarFrases(){
+
 mostrarFrase();
 
-setInterval(()=>{
+intervalo = setInterval(()=>{
 if(!pausado){
 i = (i + 1) % frases.length;
 mostrarFrase();
@@ -285,8 +286,8 @@ el.style.opacity = 1;
 },300);
 }
 
-/* CLIQUE = PAUSA */
-document.body.addEventListener("click", ()=>{
+/* 👇 CLIQUE SÓ NA FRASE = PAUSA */
+document.getElementById("frase").addEventListener("click", ()=>{
 pausado = !pausado;
 });
 
