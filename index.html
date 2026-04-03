@@ -6,13 +6,45 @@
 <title>Marianne 💙</title>
 
 <style>
-  .lamp-container{
+
+/* FUNDO */
+body{
+margin:0;
+font-family:Arial;
+background:#000;
+color:white;
+overflow:hidden;
+transition:1.5s;
+}
+
+/* ESTRELAS */
+.stars{
+position:fixed;
+width:100%;
+height:100%;
+background:url("https://www.transparenttextures.com/patterns/stardust.png");
+opacity:0;
+transition:2s;
+}
+
+/* CENTRAL */
+.container{
+position:relative;
+z-index:2;
+height:100vh;
 display:flex;
 flex-direction:column;
 align-items:center;
 justify-content:center;
-height:100vh;
+text-align:center;
+}
+
+/* LÂMPADA */
+.lamp-container{
 cursor:pointer;
+display:flex;
+flex-direction:column;
+align-items:center;
 }
 
 .lamp{
@@ -21,20 +53,17 @@ width:120px;
 height:150px;
 }
 
-/* luz */
 .light{
 width:120px;
 height:60px;
-background:radial-gradient(circle, #fff 0%, #ffe680 40%, transparent 70%);
+background:radial-gradient(circle, #222 0%, transparent 70%);
 border-radius:60px 60px 20px 20px;
 position:absolute;
 top:0;
 left:0;
-box-shadow:0 0 40px #ffe680;
-transition:0.5s;
+transition:1s;
 }
 
-/* base */
 .base{
 width:20px;
 height:70px;
@@ -46,7 +75,6 @@ transform:translateX(-50%);
 border-radius:10px;
 }
 
-/* fio */
 .cord{
 width:2px;
 height:40px;
@@ -57,65 +85,34 @@ left:50%;
 transform:translateX(-50%);
 }
 
-body{
-margin:0;
-font-family:Arial;
-background:#000;
-color:white;
-overflow:hidden;
-transition:1s;
-}
-
-/* estrelas */
-.stars{
-document.querySelector(".light").style.boxShadow = "0 0 100px #ffe680";
-document.querySelector(".light").style.background =
-"radial-gradient(circle, #fff 0%, #fff4b3 40%, transparent 80%)";
-
-/* container */
-.container{
-position:relative;
-z-index:2;
-text-align:center;
-top:50%;
-transform:translateY(-50%);
-padding:20px;
-}
-
-/* botão luz */
-.lamp{
-<div class="lamp-container" onclick="start()">
-  <div class="lamp">
-    <div class="light"></div>
-    <div class="base"></div>
-    <div class="cord"></div>
-  </div>
-  <p style="margin-top:20px;">toque para acender ✨</p>
-</div>
-}
-
-/* conteúdo */
+/* CONTEÚDO */
 .hidden{
 display:none;
 }
 
-/* card */
 .card{
 background:rgba(255,255,255,0.05);
 padding:30px;
 border-radius:20px;
 backdrop-filter:blur(10px);
+animation:fadeUp 2s ease;
 }
 
-/* frases */
+@keyframes fadeUp{
+from{opacity:0; transform:translateY(30px);}
+to{opacity:1; transform:translateY(0);}
+}
+
+/* FRASES */
 #frase{
 margin-top:30px;
 font-size:22px;
 opacity:0;
 transition:1s;
+min-height:40px;
 }
 
-/* botão música */
+/* BOTÃO */
 button{
 margin-top:20px;
 padding:12px 25px;
@@ -123,9 +120,11 @@ border:none;
 border-radius:20px;
 background:#4da6ff;
 cursor:pointer;
+color:white;
+font-weight:bold;
 }
 
-/* confete */
+/* CONFETE */
 .confetti{
 position:fixed;
 width:6px;
@@ -148,13 +147,24 @@ to{transform:translateY(100vh);}
 
 <div class="container">
 
+<!-- TELA INICIAL -->
 <div id="inicio">
-<h1>💙</h1>
-<p>toque para começar</p>
 
-<div class="lamp" onclick="start()">💡</div>
+<div class="lamp-container" onclick="start()">
+
+  <div class="lamp">
+    <div class="light" id="light"></div>
+    <div class="base"></div>
+    <div class="cord"></div>
+  </div>
+
+  <p style="margin-top:20px;">toque para acender ✨</p>
+
 </div>
 
+</div>
+
+<!-- CONTEÚDO -->
 <div id="conteudo" class="hidden">
 
 <div class="card">
@@ -179,6 +189,7 @@ Feliz aniversário, meu bem. 💙
 
 <script>
 
+/* FRASES */
 const frases = [
 "Marianne 💙",
 "A memória de Dory 🐠",
@@ -192,24 +203,38 @@ const frases = [
 "Sua risada",
 "Sua espontaneidade",
 "E tudo que você é",
-"Sua voz é como a guitarra solo de November Rain de Guns N Roses.",
 "Feliz aniversário 💙"
 ];
 
 let i = 0;
 
+/* START CINEMATOGRÁFICO */
 function start(){
+
+// acende luz suave
+const light = document.getElementById("light");
+light.style.background = "radial-gradient(circle, #fff 0%, #ffe680 40%, transparent 80%)";
+light.style.boxShadow = "0 0 120px #ffe680";
+
+// delay dramático
+setTimeout(()=>{
 document.body.style.background="#050a1f";
 document.getElementById("stars").style.opacity=1;
+},600);
 
+// mostrar conteúdo depois
+setTimeout(()=>{
 document.getElementById("inicio").style.display="none";
 document.getElementById("conteudo").classList.remove("hidden");
 
-musica();
 frasesLoop();
 confete();
+
+},1500);
+
 }
 
+/* FRASES */
 function frasesLoop(){
 const el = document.getElementById("frase");
 
@@ -225,16 +250,18 @@ i=(i+1)%frases.length;
 },3000);
 }
 
+/* MÚSICA */
 function musica(){
-window.open("https://open.spotify.com/episode/2r2rNqR3Km8yDtv3cNgXCY", "_blank");
+window.open("https://open.spotify.com/track/0PgsB53yhlKs8D19LgYU4i", "_blank");
 }
 
+/* CONFETE */
 function confete(){
 setInterval(()=>{
 const c=document.createElement("div");
 c.className="confetti";
 c.style.left=Math.random()*100+"vw";
-c.style.background=["#4da6ff","#3399ff","#66b3ff"][Math.floor(Math.random()*3)];
+c.style.background=["#4da6ff","#3399ff","#66b3ff","#1a75ff"][Math.floor(Math.random()*4)];
 c.style.animationDuration=(Math.random()*3+2)+"s";
 document.body.appendChild(c);
 setTimeout(()=>c.remove(),4000);
