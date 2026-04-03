@@ -246,10 +246,12 @@ document.getElementById("stars").style.opacity=1;
 
 // mostrar conteúdo depois
 setTimeout(()=>{
+setTimeout(()=>{
 document.getElementById("inicio").style.display="none";
 document.getElementById("conteudo").classList.remove("hidden");
 
-iniciarFrases();
+},1500);
+frasesLoop();
 confete();
 
 },1500);
