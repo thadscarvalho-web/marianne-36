@@ -6,7 +6,7 @@
 <title>Mari só Mari?</title>
 
 <style>
-  #intro{
+#intro{
 position:fixed;
 width:100%;
 height:100%;
@@ -33,9 +33,6 @@ animation:fadeIntro 4s ease forwards;
 
 /* FUNDO */
 body{
-<div id="intro">
-  <h1 id="introText">buu👻...</h1>
-</div>
 margin:0;
 font-family:Arial;
 background:#000;
@@ -118,11 +115,12 @@ display:none;
 }
 
 .card{
-background:rgba(255,255,255,0.08);
+background:rgba(255,255,255,0.03);
 padding:30px 70px;
 border-radius:10px;
-backdrop-filter:blur(15px);
+backdrop-filter:blur(18px);
 animation:fadeUp 2s ease;
+box-shadow: 0 0 40px rgba(0,0,0,0.6);
 }
 
 @keyframes fadeUp{
@@ -259,20 +257,78 @@ confete();
 }
 
 /* FRASES */
-function frasesLoop(){
+let intervalo;
+let pausado = false;
+let pressionando = false;
+let tempoPress;
+
+function mostrarFrase(){
 const el = document.getElementById("frase");
 
-setInterval(()=>{
-el.style.opacity=0;
+el.style.opacity = 0;
 
 setTimeout(()=>{
-el.innerHTML=frases[i];
-el.style.opacity=1;
-i=(i+1)%frases.length;
-},500);
+el.innerHTML = frases[i];
+el.style.opacity = 1;
+i = (i + 1) % frases.length;
+},300);
+}
 
+function iniciarFrases(){
+mostrarFrase();
+
+intervalo = setInterval(()=>{
+if(!pausado){
+mostrarFrase();
+}
 },3000);
 }
+
+/* 👉 CLIQUE RÁPIDO = PRÓXIMA */
+function proximaFrase(){
+mostrarFrase();
+}
+
+/* 👉 SEGURAR */
+document.body.addEventListener("mousedown", ()=>{
+pressionando = true;
+
+tempoPress = setTimeout(()=>{
+pausado = true;
+},300); // tempo para considerar "segurou"
+});
+
+/* 👉 SOLTOU */
+document.body.addEventListener("mouseup", ()=>{
+clearTimeout(tempoPress);
+
+if(pressionando && !pausado){
+proximaFrase(); // clique rápido
+}
+
+pressionando = false;
+pausado = false;
+});
+
+/* 👉 CELULAR */
+document.body.addEventListener("touchstart", ()=>{
+pressionando = true;
+
+tempoPress = setTimeout(()=>{
+pausado = true;
+},300);
+});
+
+document.body.addEventListener("touchend", ()=>{
+clearTimeout(tempoPress);
+
+if(pressionando && !pausado){
+proximaFrase();
+}
+
+pressionando = false;
+pausado = false;
+});
 
 /* MÚSICA */
 function musica(){
